@@ -8,7 +8,6 @@
 #define MYSQL_DEBUG_PORT      Serial
 #define _MYSQL_LOGLEVEL_      0
 #define USING_HOST_NAME     false
-RTC_DATA_ATTR int bootCount = 0;
 #if USING_HOST_NAME
   char server[] = "your_account.ddns.net";
 #else
@@ -128,6 +127,6 @@ configTime(gmtOffset_sec, daylightOffset_sec, ntpServer1);
   MYSQL_DISPLAY("\r\nGehe in Tiefschlaf...");
   MYSQL_DISPLAY("=======================");
   delay(500);
-  esp_sleep_enable_timer_wakeup(uint64_t 1800000000);
+  esp_sleep_enable_timer_wakeup(uint64_t(1800000000));
   esp_deep_sleep_start();
   }
