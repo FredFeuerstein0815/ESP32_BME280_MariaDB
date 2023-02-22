@@ -4,29 +4,24 @@
 #include <Adafruit_BME280.h>
 #include <Adafruit_Sensor.h>
 #include <MySQL_Generic.h>
+#include "Credentials.h"
 #define MYSQL_DEBUG_PORT      Serial
 #define _MYSQL_LOGLEVEL_      0
 #define USING_HOST_NAME     false
+#define SchlafZeit 1800E7 // Mikrosekunden hier 30 Minuten
+RTC_DATA_ATTR int bootCount = 0;
 #if USING_HOST_NAME
-  char server[] = "host.dyndns.org";
+  char server[] = "your_account.ddns.net";
 #else
   IPAddress server(192, 168, 0, 10);
 #endif
-
-uint16_t server_port = 3306;
-
-char ssid[] = "MEINE_SSID";
-char pass[] = "SECRET";
-
-char user[]         = "mysql";
-char password[]     = "SECRET";
 
 const char* ntpServer1 = "de.pool.ntp.org";
 const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
 
-char default_database[] = "bme280";
+char default_database[] = "datenbankname";
 char default_table[]    = "daten";
 String db = String(default_database);
 String table = String(default_table);
@@ -96,6 +91,12 @@ configTime(gmtOffset_sec, daylightOffset_sec, ntpServer1);
   String tempString = String(tempchar);
   String druckString = String(druckchar);
   String feuchtString = String(feuchtchar);
+  Serial.println(tempString);
+  Serial.print("\r\n");
+  Serial.println(druckString);
+  Serial.print("\r\n");
+  Serial.println(feuchtString);
+  Serial.print("\r\n");
   String alles = String("INSERT INTO ") + db + "." + table + " VALUES (" + tempString + "," + druckString + "," + feuchtString + ", " "'" + datumString + "'" ")";
   MYSQL_DISPLAY("Verbinde zur DB...");
   if (conn.connectNonBlocking(server, server_port, user, password) != RESULT_FAIL)
@@ -111,7 +112,7 @@ configTime(gmtOffset_sec, daylightOffset_sec, ntpServer1);
     {
       MYSQL_DISPLAY("Insert erfolgreich.");
       conn.close();
-      delay(60000);
+      delay(1000);
     }
   }
   else
@@ -125,7 +126,9 @@ configTime(gmtOffset_sec, daylightOffset_sec, ntpServer1);
     MYSQL_DISPLAY("\nVerbindungsfehler.");
   }
 
-  MYSQL_DISPLAY("\r\nSchlafe...");
-  MYSQL_DISPLAY("================================================");
-  delay(60000);
+  MYSQL_DISPLAY("\r\nGehe in Tiefschlaf...");
+  MYSQL_DISPLAY("=======================");
+  esp_sleep_enable_timer_wakeup(SchlafZeit);
+  esp_deep_sleep_start();
+  delay(500);
 }
