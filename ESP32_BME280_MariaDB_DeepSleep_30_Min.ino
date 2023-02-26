@@ -127,6 +127,6 @@ configTime(gmtOffset_sec, daylightOffset_sec, ntpServer1);
   MYSQL_DISPLAY("\r\nGehe in Tiefschlaf...");
   MYSQL_DISPLAY("=======================");
   delay(500);
-  esp_sleep_enable_timer_wakeup(uint64_t(1800000000));
+  esp_sleep_enable_timer_wakeup(uint64_t(1080000000));
   esp_deep_sleep_start();
   }
