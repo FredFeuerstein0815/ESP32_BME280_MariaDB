@@ -11,4 +11,4 @@ Anschliessend geht der ESP32 für 30 Minuten in den Tiefschlaf.
 Du benötigst die Bibliothek von Khoi Hoang https://github.com/khoih-prog/MySQL_MariaDB_Generic und
 die Adafruit BME280-Bibliothek aus der Arduino IDE.
 Die Datenbank und die Tabelle mit 4 Spalten muss vor dem hochladen erstellt werden und der SQL-Benutzer sollte datenbankspezifisch nur INSERT und SELECT dürfen.
-Der Server muss es erlaubt sein, Anfragen der IP des ESP32 entgegenzunehmen (bind-address = 0.0.0.0)
+Dem Server muss es erlaubt sein, Anfragen der IP des ESP32 entgegenzunehmen (bind-address = 0.0.0.0)
