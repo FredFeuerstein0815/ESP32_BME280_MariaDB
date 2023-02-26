@@ -9,7 +9,7 @@
 #define _MYSQL_LOGLEVEL_      0
 #define USING_HOST_NAME     false
 #if USING_HOST_NAME
-  char server[] = "your_account.ddns.net";
+  char server[] = "your_account.dyndns.org";
 #else
   IPAddress server(192, 168, 0, 10);
 #endif
